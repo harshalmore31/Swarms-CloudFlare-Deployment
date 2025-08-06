@@ -266,7 +266,10 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## Support
 
-For issues and questions:
-- Open an issue on GitHub
-- Check the troubleshooting section
-- Review Cloudflare Workers documentation
+- **Issues**: [GitHub Issues](https://github.com/The-Swarm-Corporation/AdvancedResearch/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/The-Swarm-Corporation/AdvancedResearch/discussions)
+- **Discord**: [Join our community](https://discord.gg/EamjgSaEQf)
+
+<p align="center">
+  <strong>Built with <a href="https://github.com/kyegomez/swarms">Swarms</a> framework for production-grade agentic applications </strong>
+</p>
