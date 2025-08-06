@@ -162,14 +162,17 @@ Provide comprehensive analysis with:
         cost = result.get('usage', {}).get('billing_info', {}).get('total_cost') or result.get('metadata', {}).get('billing_info', {}).get('total_cost')
         logger.info(f'💰 Cost: {cost or "N/A"}')
 
-        # Format the analysis output
+        # Format the analysis output with markdown structure preserved
         if isinstance(result['output'], list):
             formatted_analysis = '\n'.join([
-                f"🤖 {agent.get('role', 'Agent')}:\n\n{agent.get('content', '')}\n\n{'=' * 80}\n"
+                f"## 🤖 {agent.get('role', agent.get('agent_name', 'AI Agent'))}\n\n{agent.get('content', agent.get('response', ''))}\n\n{'=' * 80}\n"
                 for agent in result['output']
             ])
-        else:
+        elif isinstance(result['output'], str):
             formatted_analysis = result['output']
+        else:
+            # Handle object response format
+            formatted_analysis = json.dumps(result['output'], indent=2)
 
         # Send email report if configured
         if (hasattr(env, 'MAILGUN_API_KEY') and env.MAILGUN_API_KEY and 
@@ -500,6 +503,58 @@ def get_dashboard_html():
     <div id="result"></div>
 
     <script>
+      // Simple markdown parser for agent output
+      function parseMarkdown(text) {
+        if (!text) return '';
+        
+        return text
+          // Headers
+          .replace(/^### (.*$)/gm, '<h3 style="color: #2c5aa0; margin: 20px 0 10px 0; font-size: 18px;">$1</h3>')
+          .replace(/^## (.*$)/gm, '<h2 style="color: #1a365d; margin: 25px 0 15px 0; font-size: 22px;">$1</h2>')
+          .replace(/^# (.*$)/gm, '<h1 style="color: #1a202c; margin: 30px 0 20px 0; font-size: 28px;">$1</h1>')
+          
+          // Bold text
+          .replace(/\\*\\*(.*?)\\*\\*/g, '<strong style="color: #2d3748;">$1</strong>')
+          .replace(/__(.*?)__/g, '<strong style="color: #2d3748;">$1</strong>')
+          
+          // Italic text
+          .replace(/\\*(.*?)\\*/g, '<em style="color: #4a5568;">$1</em>')
+          .replace(/_(.*?)_/g, '<em style="color: #4a5568;">$1</em>')
+          
+          // Code blocks
+          .replace(/```([\\s\\S]*?)```/g, '<pre style="background: #f7fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 16px; margin: 16px 0; overflow-x: auto; font-family: \\'Monaco\\', \\'Menlo\\', \\'Ubuntu Mono\\', monospace; font-size: 14px; line-height: 1.45;"><code>$1</code></pre>')
+          
+          // Inline code
+          .replace(/`([^`]+)`/g, '<code style="background: #f7fafc; border: 1px solid #e2e8f0; border-radius: 3px; padding: 2px 6px; font-family: \\'Monaco\\', \\'Menlo\\', \\'Ubuntu Mono\\', monospace; font-size: 13px; color: #e53e3e;">$1</code>')
+          
+          // Lists
+          .replace(/^\\s*[-*+] (.+)$/gm, '<li style="margin: 8px 0; padding-left: 8px;">$1</li>')
+          .replace(/(<li[^>]*>.*<\\/li>)/gs, '<ul style="margin: 16px 0; padding-left: 24px; list-style-type: disc;">$1</ul>')
+          
+          // Numbered lists
+          .replace(/^\\s*\\d+\\. (.+)$/gm, '<li style="margin: 8px 0; padding-left: 8px;">$1</li>')
+          .replace(/(<li[^>]*>.*<\\/li>)/gs, (match) => {
+            if (match.includes('list-style-type: disc')) return match;
+            return '<ol style="margin: 16px 0; padding-left: 24px; list-style-type: decimal;">' + match + '</ol>';
+          })
+          
+          // Price targets and key levels (financial data formatting)
+          .replace(/\\$([0-9,]+(?:\\.[0-9]{2})?)/g, '<span style="color: #38a169; font-weight: 600; background: #f0fff4; padding: 2px 6px; border-radius: 3px;">$$1</span>')
+          
+          // Percentages
+          .replace(/([+-]?[0-9]+(?:\\.[0-9]+)?%)/g, '<span style="color: #d69e2e; font-weight: 600; background: #fffbeb; padding: 2px 6px; border-radius: 3px;">$1</span>')
+          
+          // Technical indicators (RSI, MACD, etc)
+          .replace(/\\b(RSI|MACD|SMA|EMA|Support|Resistance|Bullish|Bearish|Buy|Sell|Hold)\\b/gi, '<span style="color: #2b6cb0; font-weight: 600; background: #ebf8ff; padding: 2px 6px; border-radius: 3px;">$1</span>')
+          
+          // Line breaks
+          .replace(/\\n\\n/g, '<br><br>')
+          .replace(/\\n/g, '<br>')
+          
+          // Agent separator
+          .replace(/={80}/g, '<hr style="margin: 30px 0; border: none; border-top: 2px solid #e2e8f0;">');
+      }
+
       async function triggerAnalysis() {
         const progressDiv = document.getElementById('progress');
         const progressText = document.getElementById('progress-text');
@@ -540,7 +595,7 @@ def get_dashboard_html():
               </div>
               <div class="analysis" style="max-height: 600px; overflow-y: auto;">
                 <h3>🤖 AI Agent Analysis:</h3>
-                <pre style="white-space: pre-wrap; word-wrap: break-word;">${data.result.analysis || 'No analysis available'}</pre>
+                <div style="background: white; padding: 20px; border-radius: 5px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6;">${parseMarkdown(data.result.analysis || 'No analysis available')}</div>
               </div>
             `;
           } else {
