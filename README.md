@@ -16,9 +16,7 @@ This repository demonstrates how to combine **Swarms API multi-agent intelligenc
 
 Watch the stock agent in action:
 
-<video src="stock-agent-demo.mp4" controls width="600">
-  Your browser does not support the video tag.
-</video>
+![Demo GIF](stock-agent-demo.gif)
 
 
 > **Note**: The demo video shows the complete workflow from data fetching to AI analysis and report generation.
