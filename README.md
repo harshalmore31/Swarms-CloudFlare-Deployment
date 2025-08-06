@@ -12,9 +12,19 @@ This repository demonstrates how to combine **Swarms API multi-agent intelligenc
 - 📧 **Take automated actions** (email alerts, reports, notifications)
 - 🌍 **Scale globally** on Cloudflare's edge network with sub-100ms latency
 
-## Stock Analysis Agent Example
+## Available Implementations
 
-The included `stock-agent/` demonstrates a complete implementation that:
+This repository provides **two complete implementations** of stock analysis agents:
+
+### 📂 `stock-agent/` - JavaScript Implementation
+The original implementation using **JavaScript/TypeScript** on Cloudflare Workers.
+
+### 📂 `python-stock-agent/` - Python Implementation  
+A **Python Workers** implementation using Cloudflare's beta Python runtime with Pyodide.
+
+## Stock Analysis Agent Features
+
+Both implementations demonstrate a complete system that:
 
 1. Runs automated stock analysis every 3 hours using Cloudflare Workers cron
 2. Fetches real-time market data from Yahoo Finance API (no API key needed)
@@ -23,14 +33,27 @@ The included `stock-agent/` demonstrates a complete implementation that:
 5. Sends comprehensive email reports via Mailgun
 6. Provides a web interface for manual triggers and monitoring
 
-### Architecture
+## Implementation Comparison
+
+| Feature | JavaScript (`stock-agent/`) | Python (`python-stock-agent/`) |
+|---------|----------------------------|--------------------------------|
+| **Runtime** | V8 JavaScript Engine | Pyodide Python Runtime |
+| **Language** | JavaScript/TypeScript | Python 3.x |
+| **Status** | Production Ready | Beta (Python Workers) |
+| **Performance** | Optimized V8 execution | Good, with Python stdlib support |
+| **Syntax** | `fetch()`, `JSON.stringify()` | `await fetch()`, `json.dumps()` |
+| **Error Handling** | `try/catch` | `try/except` |
+| **Libraries** | Built-in Web APIs | Python stdlib + select packages |
+| **Development** | Mature tooling | Growing ecosystem |
+
+### Architecture (Both Implementations)
 
 ```
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │ Cloudflare      │    │  Data Sources   │    │   Swarms API    │
-│ Workers Cron    │    │                 │    │                 │
+│ Workers Runtime │    │                 │    │                 │
 │ "0 */3 * * *"   │───▶│ Yahoo Finance   │───▶│ Technical Agent │
-│                 │    │ News APIs       │    │ Fundamental     │
+│ JS | Python     │    │ News APIs       │    │ Fundamental     │
 │ scheduled()     │    │ Market Data     │    │ Agent Analysis  │
 │ Global Edge     │    │                 │    │                 │
 └─────────────────┘    └─────────────────┘    └─────────────────┘
@@ -38,14 +61,27 @@ The included `stock-agent/` demonstrates a complete implementation that:
 
 ## Quick Start Guide
 
-### 1. Project Setup
+Choose your preferred implementation:
+
+### Option A: JavaScript Implementation
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/swarms-cloudflare-deployment.git
-cd swarms-cloudflare-deployment/stock-agent
+git clone https://github.com/The-Swarm-Corporation/Swarms-CloudFlare-Deployment.git
+cd Swarms-CloudFlare-Deployment/stock-agent
 
 # Install dependencies
+npm install
+```
+
+### Option B: Python Implementation
+
+```bash
+# Clone the repository
+git clone https://github.com/The-Swarm-Corporation/Swarms-CloudFlare-Deployment.git
+cd Swarms-CloudFlare-Deployment/python-stock-agent
+
+# Install dependencies (Wrangler CLI)
 npm install
 ```
 

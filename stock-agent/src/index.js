@@ -1,6 +1,6 @@
 export default {
   // HTTP request handler
-  async fetch(request, env, _ctx) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
     
     if (url.pathname === '/') {
@@ -118,7 +118,7 @@ export default {
       // Manual trigger for testing
       try {
         console.log('🔥 Manual trigger initiated');
-        const result = await handleStockAnalysis(null, env);
+        const result = await handleStockAnalysis(null, env, ctx);
         
         return new Response(JSON.stringify({ 
           message: 'Stock analysis triggered manually',
@@ -155,11 +155,11 @@ export default {
 
   // Cron job handler - runs automatically
   async scheduled(event, env, ctx) {
-    ctx.waitUntil(handleStockAnalysis(event, env));
+    ctx.waitUntil(handleStockAnalysis(event, env, ctx));
   }
 };
 
-async function handleStockAnalysis(event, env) {
+async function handleStockAnalysis(event, env, ctx) {
   console.log('🚀 Starting stock analysis...');
   
   try {

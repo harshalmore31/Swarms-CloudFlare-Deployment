@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__cloudflare__search_cloudflare_documentation"
+    ],
+    "deny": []
+  }
+}

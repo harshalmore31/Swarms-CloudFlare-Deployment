@@ -1,0 +1,20 @@
+# Environment Variables for Development
+# Copy this to .dev.vars and fill in your actual values
+
+# Required: Swarms AI API Key
+# Get your API key from: https://swarms.ai
+SWARMS_API_KEY=your_swarms_api_key_here
+
+# Optional: Financial Modeling Prep API Key for market news
+# Sign up at: https://financialmodelingprep.com/developer/docs
+# Free tier available with limited requests
+FMP_API_KEY=your_fmp_api_key_here
+
+# Optional: Mailgun configuration for email reports
+# Sign up at: https://www.mailgun.com/
+MAILGUN_API_KEY=your_mailgun_api_key_here
+MAILGUN_DOMAIN=your_mailgun_domain_here
+RECIPIENT_EMAIL=your_email@example.com
+
+# Development environment identifier
+ENVIRONMENT=development
