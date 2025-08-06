@@ -12,6 +12,17 @@ This repository demonstrates how to combine **Swarms API multi-agent intelligenc
 - 📧 **Take automated actions** (email alerts, reports, notifications)
 - 🌍 **Scale globally** on Cloudflare's edge network with sub-100ms latency
 
+## Demo Video
+
+Watch the stock agent in action:
+
+<video src="stock-agent-demo.mp4" controls width="600">
+  Your browser does not support the video tag.
+</video>
+
+
+> **Note**: The demo video shows the complete workflow from data fetching to AI analysis and report generation.
+
 ## Available Implementations
 
 This repository provides **two complete implementations** of stock analysis agents:
