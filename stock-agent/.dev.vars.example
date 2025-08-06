@@ -1,0 +1,17 @@
+# Example Environment Variables File
+# Copy to .dev.vars and replace with your actual keys
+
+# Required: Swarms AI API Key (mandatory for AI analysis)
+SWARMS_API_KEY=sk-your-swarms-api-key-here
+
+# Optional: Financial Modeling Prep API Key (for market news)
+# Get free key at: https://financialmodelingprep.com/developer/docs
+FMP_API_KEY=YOUR_FMP_KEY
+
+# Optional: Mailgun Email Configuration (for email reports)
+# Sign up at: https://www.mailgun.com/
+MAILGUN_API_KEY=key-your-mailgun-key
+MAILGUN_DOMAIN=yourdomain.com
+RECIPIENT_EMAIL=alerts@yourdomain.com
+
+# Note: Stock data is now provided by Yahoo Finance (free, no API key required)
